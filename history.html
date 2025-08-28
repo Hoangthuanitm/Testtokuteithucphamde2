@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>飲食料品製造業特定技能1号ー模擬試験第１回目の結果</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Roboto', sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #F5F7FA;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            -webkit-text-size-adjust: 100%;
+            touch-action: manipulation;
+            overflow: visible;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .header h1 {
+            font-size: 1.8em;
+            margin: 0;
+            color: #4A90E2;
+        }
+        .search-section {
+            margin-bottom: 30px;
+            min-height: 60px;
+            display: flex !important;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        .search-section label {
+            font-weight: 500;
+            color: #4A90E2;
+            margin: 0;
+            white-space: nowrap;
+        }
+        .search-section input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+            touch-action: manipulation;
+            flex: 1;
+            min-width: 200px;
+        }
+        .search-section input:focus {
+            border-color: #4A90E2;
+            outline: none;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .history-table th, .history-table td {
+            border: 1px solid #E0E4EA;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            min-width: 80px;
+            max-width: 200px;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+        .history-table th {
+            background-color: #4A90E2;
+            color: #FFFFFF;
+            font-weight: 500;
+        }
+        .history-table tr:nth-child(even) {
+            background-color: #F9FAFB;
+        }
+        .history-table .delete-btn {
+            background-color: #EF4444;
+            color: #FFFFFF;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+        .history-table .delete-btn:hover {
+            background-color: #DC2626;
+        }
+        .error-message {
+            color: #EF4444;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+        .rank-a {
+            color: #4A90E2;
+            font-weight: 500;
+        }
+        .rank-f {
+            color: #EF4444;
+            font-weight: 500;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            border-top: 1px solid #E0E4EA;
+            color: #6B7280;
+            font-size: 0.9em;
+            font-family: 'Roboto', sans-serif;
+        }
+        #modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .modal-content button {
+            background-color: #4A90E2;
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .modal-content button:hover {
+            background-color: #357ABD;
+        }
+        @media (max-width: 600px) {
+            .history-table {
+                font-size: 0.8em;
+            }
+            .history-table th, .history-table td {
+                padding: 6px;
+                font-size: 0.8em;
+                min-width: 60px;
+                max-width: 150px;
+            }
+            .search-section {
+                padding: 10px;
+                display: flex !important;
+            }
+            .search-section label {
+                font-size: 14px;
+            }
+            .search-section input {
+                font-size: 14px;
+                min-width: 150px;
+            }
+            .modal-content {
+                width: 95%;
+            }
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <div id="modal">
+        <div class="modal-content">
+            <label for="password">Nhập mật khẩu:</label>
+            <input type="password" id="password">
+            <button id="submit-password">Xác nhận</button>
+        </div>
+    </div>
+
+    <div class="header">
+        <h1>飲食料品製造業特定技能1号</h1>
+        <h2>模擬試験第１回目の結果</h2>
+    </div>
+
+    <div class="search-section">
+        <label for="search">Tìm kiếm:</label>
+        <input type="text" id="search" placeholder="Nhập tên, lớp hoặc ngày (YYYY-MM-DD)">
+    </div>
+    <div id="message" class="error-message"></div>
+
+    <div class="table-container">
+        <table class="history-table" id="history-table">
+            <thead>
+                <tr>
+                    <th>Tên</th>
+                    <th>Lớp</th>
+                    <th>Ngày</th>
+                    <th>Thời gian làm bài</th>
+                    <th>Tổng điểm</th>
+                    <th>Tỷ lệ</th>
+                    <th>Xếp loại</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="history-table-body"></tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>© 2025 Tài liệu kiểm tra | Thiết kế bởi Thuận</p>
+    </footer>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfy4QMD9_7PyFHpInNdKDRWuW4AYCtLJ4",
+            authDomain: "history-e4633.firebaseapp.com",
+            projectId: "history-e4633",
+            storageBucket: "history-e4633.firebasestorage.app",
+            messagingSenderId: "331974436893",
+            appId: "1:331974436893:web:10c3c6adf7b66d2b5fbef4",
+            measurementId: "G-DC055090BW"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const collection = db.collection('testHistorytokuteithucphamde2');
+
+        function normalizeString(str) {
+            return str
+                .normalize('NFKC')
+                .trim()
+                .replace(/[\s\u3000]+/g, '')
+                .replace(/[。！？｡!?.、，]/g, '')
+                .toLowerCase();
+        }
+
+        function formatTimeTaken(seconds) {
+            if (!seconds || seconds === 'N/A') return 'N/A';
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            return `${hours > 0 ? hours + ':' : ''}${minutes < 10 ? '0' : ''}${minutes}`;
+        }
+
+        function getEvaluation(percentage) {
+            if (percentage >= 80) return 'A';
+            if (percentage >= 60) return 'B';
+            if (percentage >= 40) return 'C';
+            if (percentage >= 20) return 'D';
+            return 'F';
+        }
+
+        async function renderHistoryTable(searchTerm = '') {
+            const historyTableBody = document.getElementById('history-table-body');
+            const messageDiv = document.getElementById('message');
+            let testHistory = [];
+
+            try {
+                const snapshot = await collection.orderBy('timestamp', 'desc').get();
+                testHistory = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                // Filter valid data
+                testHistory = testHistory.filter(entry => {
+                    if (!entry.timestamp || typeof entry.timestamp.toDate !== 'function') {
+                        console.warn(`Dữ liệu không hợp lệ trong id ${entry.id}: Thiếu hoặc sai định dạng timestamp`);
+                        return false;
+                    }
+                    return true;
+                });
+
+                // Sort by timestamp (newest first)
+                testHistory.sort((a, b) => b.timestamp.toDate() - a.timestamp.toDate());
+
+                // Filter by search term
+                if (searchTerm) {
+                    const normalizedSearch = normalizeString(searchTerm);
+                    testHistory = testHistory.filter(entry =>
+                        normalizeString(entry.name || '').includes(normalizedSearch) ||
+                        normalizeString(entry.class || '').includes(normalizedSearch) ||
+                        normalizeString(entry.date || '').includes(normalizedSearch)
+                    );
+                }
+
+                // Clear table content before rendering
+                historyTableBody.innerHTML = '';
+                testHistory.forEach(entry => {
+                    const totalScore = entry.total.split('/')[0];
+                    const totalQuestions = entry.total.split('/')[1];
+                    const percentage = ((totalScore / totalQuestions) * 100).toFixed(2);
+                    const evaluation = getEvaluation(percentage);
+                    const rankClass = evaluation === 'A' ? 'rank-a' : evaluation === 'F' ? 'rank-f' : '';
+                    const timeTaken = formatTimeTaken(entry.timeTaken);
+
+                    const row = `
+                        <tr>
+                            <td>${entry.name || 'N/A'}</td>
+                            <td>${entry.class || 'N/A'}</td>
+                            <td>${entry.date || 'N/A'}</td>
+                            <td>${timeTaken}</td>
+                            <td>${entry.total || 'N/A'}</td>
+                            <td>${percentage}% </td> 
+                            <td><span class="${rankClass}">${evaluation}</span></td>
+                            <td><button class="delete-btn" data-doc-id="${entry.id}">Xóa</button></td>
+                        </tr>
+                    `;
+                    historyTableBody.innerHTML += row;
+                });
+
+                if (testHistory.length === 0) {
+                    historyTableBody.innerHTML = '<tr><td colspan="7">Không có dữ liệu lịch sử hoặc không thể truy xuất dữ liệu.</td></tr>';
+                }
+
+                messageDiv.textContent = '';
+            } catch (error) {
+                console.error('Lỗi khi truy xuất Firestore:', error);
+                let errorMessage = 'Đã xảy ra lỗi khi tải lịch sử kiểm tra. Vui lòng thử lại.';
+                if (error.code === 'permission-denied') {
+                    errorMessage = 'Không có quyền truy cập dữ liệu. Vui lòng kiểm tra quy tắc Firestore.';
+                } else if (error.code === 'unavailable') {
+                    errorMessage = 'Không thể kết nối với Firestore. Vui lòng kiểm tra kết nối mạng.';
+                }
+                messageDiv.textContent = errorMessage;
+            }
+        }
+
+        async function deleteHistoryEntry(docId) {
+            try {
+                await collection.doc(docId).delete();
+                renderHistoryTable(document.getElementById('search')?.value.trim() || '');
+            } catch (error) {
+                console.error('Lỗi khi xóa bản ghi:', error);
+                let errorMessage = 'Đã xảy ra lỗi khi xóa kết quả.';
+                if (error.code === 'permission-denied') {
+                    errorMessage = 'Không có quyền xóa dữ liệu. Vui lòng kiểm tra quy tắc Firestore.';
+                } else if (error.code === 'unavailable') {
+                    errorMessage = 'Không thể kết nối với Firestore. Vui lòng kiểm tra kết nối mạng.';
+                }
+                document.getElementById('message').textContent = errorMessage;
+            }
+        }
+
+        document.getElementById('submit-password').addEventListener('click', () => {
+            const password = document.getElementById('password').value;
+            if (password === '112') {
+                document.getElementById('modal').style.display = 'none';
+                renderHistoryTable();
+            } else {
+                document.getElementById('message').textContent = 'Mật khẩu sai';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search');
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    renderHistoryTable(searchInput.value.trim());
+                });
+            }
+
+            const historyTableBody = document.getElementById('history-table-body');
+            historyTableBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-btn')) {
+                    const docId = e.target.dataset.docId;
+                    if (confirm('Bạn có chắc chắn muốn xóa kết quả này không?')) {
+                        deleteHistoryEntry(docId);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
