@@ -548,7 +548,7 @@
     <div class="header">
         <h1>飲食料品製造業特定技能1号</h1>
         <h2>模擬試験第2回目</h2>
-        <p>時間：40 分</p>
+        <p>時間：60 分</p>
     </div>
     <div class="student-info">
         <div>
@@ -569,7 +569,7 @@
         <button id="history-test" type="button" onclick="window.showPasswordModal()">Lịch sử kiểm tra</button>
     </div>
     <div id="message-info" class="error-message"></div>
-    <div id="timer" class="timer" style="display: none;">Thời gian còn lại: 40:00</div>
+    <div id="timer" class="timer" style="display: none;">Thời gian còn lại: 60:00</div>
     <div class="question-section" id="question-section">
         <!-- Questions will be dynamically inserted here -->
     </div>
@@ -1177,7 +1177,7 @@ const questions = [
         }
         function startTimer() {
             startTime = new Date();
-            const endTime = new Date(startTime.getTime() + 40 * 60 * 1000);
+            const endTime = new Date(startTime.getTime() + 60 * 60 * 1000);
             const timerElement = document.getElementById('timer');
             timerInterval = setInterval(() => {
                 const now = new Date();
